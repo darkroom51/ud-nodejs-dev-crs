@@ -1,0 +1,33 @@
+// mongodb cli
+
+$ mongo
+
+cls ---> clear
+show dbs ---> show all dbs
+use <db_name> ---> create db
+db ---> show present db
+db.createUser({userObj}) ---> create db user
+db.createCollection('collection_name')
+show collections ---> show all collection from db
+
+db.<collection>.insert({})
+
+db.<collection>.find({match})
+db.<collection>.find({match}).pretty()
+db.<collection>.find({$or:{[{match1},{match2}]}).pretty()
+db.<collection>.find({age:{$lt:40}})
+db.<collection>.find({match}).count()
+db.<collection>.find({match}).limit(4).sort({prop:1})
+db.<collection>.find({match}).forEach(function(el){print("Hello: "+el.prop)})
+
+db.<collection>.update({match}, {wholeUpdateObj})
+db.<collection>.update({match}, {$set:{prop:"value"}})
+db.<collection>.update({match}, {$set:{prop:"value"}, {$inc:1}})
+db.<collection>.update({match}, {$unset:{prop:1}})
+db.<collection>.update({no-match}, {wholeUpdateObj}, {upsert: true})
+db.<collection>.update({match}, {$rename:{"prop":"new-prop-name"}})
+
+db.<collection>.remove({match}) ---> remove all
+db.<collection>.remove({match}, {justOne:true}) ---> remove justOne
+
+
