@@ -45,9 +45,29 @@ app.get('/todos/:id', (req, res) => {
 	Todo.findById(id)
 		.then((todo) => {
 			if (!todo) { // id OK pattern but not found so todo === null
-				return res.status(404).send({});
+				return res.status(404).send();
 			}
 			res.send({ todo }); // {todo} ---> {todo: todo}
+		}, (e) => { // promise rejected
+			res.status(400).send();
+			console.log('Promise rejected:', e);
+		});
+});
+
+// DELETE /todos/1234324323
+app.delete('/todos/:id', (req, res) => {
+	var id = req.params.id;
+
+	if (!ObjectID.isValid(id)) { // invalid id pattern
+		return res.status(404).send(); // 404 and empty response
+	}
+
+	Todo.findByIdAndRemove(id)
+		.then((doc) => {
+			if (!doc) { // id OK pattern but not found so todo === null
+				return res.status(404).send();
+			}
+			res.send(doc); // return {} like in jsonplaceholder
 		}, (e) => { // promise rejected
 			res.status(400).send();
 			console.log('Promise rejected:', e);
