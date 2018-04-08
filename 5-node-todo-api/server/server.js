@@ -1,3 +1,5 @@
+require('./config/config'); //import all from config
+
 var _ = require('lodash');
 var express = require('express');
 var bodyParser = require('body-parser');
@@ -78,7 +80,7 @@ app.delete('/todos/:id', (req, res) => {
 // PATCH /todos/123412341234
 app.patch('/todos/:id', (req, res) => {
 	var id = req.params.id;
-	var body = _.pick(req.body, ['text', 'completed']);
+	var body = _.pick(req.body, ['text', 'completed']); // pick which prop is to update
 
 	if (!ObjectID.isValid(id)) { // invalid id pattern
 		return res.status(404).send(); // 404 and empty response
