@@ -105,6 +105,20 @@ app.patch('/todos/:id', (req, res) => {
 		})
 });
 
+// Users ------------------------------------------------------
+
+app.post('/users', (req, res) => {
+	var body = _.pick(req.body, ['email', 'password']);
+	var user = new User(body); // body = {email: req.body.email, password: req.body.password}
+
+	user.save()
+		.then((user) => {
+			res.send(user);
+		}, (err) => {
+			res.status(400).send(err);
+		})
+});
+
 // server listen
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
