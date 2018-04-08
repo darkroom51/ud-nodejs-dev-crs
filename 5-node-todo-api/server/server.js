@@ -123,6 +123,22 @@ app.post('/users', (req, res) => {
 		})
 });
 
+// basic private route
+app.get('/users/me', (req, res) => {
+	var token = req.header('x-auth');
+
+	User.findByToken(token)
+		.then((user) => {
+			if(!user){
+				return Promise.reject();
+			}
+			res.send(user);
+		})
+		.catch((e) => { // not valid token
+			res.status(401).send();
+		})
+});
+
 // server listen
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
