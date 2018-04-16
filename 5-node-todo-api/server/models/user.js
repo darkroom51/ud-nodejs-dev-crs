@@ -45,7 +45,7 @@ UserSchema.methods.toJSON = function () { // overiding mongoose method
 UserSchema.methods.generateAuthToken = function () {
 	var user = this; // this is why it's not arrow func
 	var access = 'auth';
-	var token = jwt.sign({ _id: user._id.toHexString(), access: access }, 'abc123').toString();
+	var token = jwt.sign({ _id: user._id.toHexString(), access: access }, process.env.JWT_SECRET).toString();
 
 	user.tokens = user.tokens.concat([{ access, token }]);
 
@@ -57,7 +57,7 @@ UserSchema.methods.generateAuthToken = function () {
 
 UserSchema.methods.removeToken = function (token) {
 	var user = this;
-	
+
 	return user.update({
 		$pull: {
 			tokens: {
@@ -73,7 +73,7 @@ UserSchema.statics.findByToken = function (token) {
 
 	//try{} catch(e){}
 	try {
-		decoded = jwt.verify(token, 'abc123');
+		decoded = jwt.verify(token, process.env.JWT_SECRET);
 	} catch (e) {
 		// return new Promise((resolve, reject) => {
 		// 	reject();
